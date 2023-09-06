@@ -336,7 +336,7 @@ lmlenght <- ggplot(dfgru,
     ylim(0,80)+
     ylab("Mean length (mm.)") +
     xlab("") +
-    ggtitle("Lenght Mean Krill Differente sources")
+    ggtitle("Lenght Mean. KRILLBASE data")
 lmlenght
 ```
 
