@@ -1,5 +1,5 @@
 ---
-title: "Data prepair Length structure KRILLBASE"
+title: "Analysis Exploratory Data (AED) on krill length structure from KRILLBASE"
 subtitle: "Alternative Analysis to incorporate in Krill Stock Assessment Model 48.1 SubArea"
 author: "Mardones, M"
 date:  "06 September, 2023"
@@ -22,6 +22,12 @@ editor_options:
   markdown: 
     wrap: 72
 ---
+
+## Background
+
+The following code perform as an Analisys Exploratory Data of Krill *Euphausia superba* based in Area 481, and with special emphasis on the proposed new management strata. The idea is to observe and prepare the days to incorporate into the stock assessment. This data base was download from [KRILLDATA Base](https://apex.nerc-bas.ac.uk/f?p=198:1:0).
+
+## Set up and libraries
 
 
 ```r
@@ -50,16 +56,7 @@ library(CCAMLRGIS)
 library(ggthemes)
 ```
 
-# Background
-
-The following document intends to carry out a complementary
-methodological analysis to explore, in this case, with a
-biological component like lengths from Lengh Frecuency [KRILLDATA Base](https://apex.nerc-bas.ac.uk/f?p=198:1:0).
-
-
-# Methodology
-
-Load data 
+## Load data and a glimpse about structure
 
 
 ```r
@@ -108,19 +105,83 @@ dim(Net_haul_details)
 ```
 
 ```r
-table(Net_haul_details$Year)
+table(Net_haul_details$Source)
 ```
 
 ```
 ## 
-## 1926 1927 1928 1929 1930 1931 1932 1933 1934 1935 1936 1937 1938 1939 1950 1951 
-##    2    2    9    8    8   26   74    8   93  106  155  135  272  113   18   38 
-## 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 
-##   97   39  108   19  144  283  408  236  428  362  174  107  155   29  214  110 
-## 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 
-##  111  136  191  114  373   87  140   58  227  328  164  154  101   89   51   46 
-## 2008 2009 2010 2011 2012 2013 2015 
-##   47   18    6   10   20   10    9
+##                                                                                                                                                                     1991 austral summer Japanese data sent by Taro Ichii (spermatophore notes not entered) 
+##                                                                                                                                                                                                                                                         59 
+##                                                                                                                                                                                                                      1996 Ori net data sent by Sanae Chiba 
+##                                                                                                                                                                                                                                                          8 
+##                                                                                                                                                                                                         Ashjian et al (2004) Deep Sea Res II 51, 2073-2098 
+##                                                                                                                                                                                                                                                         12 
+##                                                                                                                                                                            Australian Antarctic Division data for BROKE Survey (1996) sent by So Kawaguchi 
+##                                                                                                                                                                                                                                                        100 
+##                                                                                                                                                                           Australian Antarctic Division data for KACTAS Survey (2001) sent by So Kawaguchi 
+##                                                                                                                                                                                                                                                         90 
+##                                                                                                                                                                             Australian Antarctic Division data for KAOS Survey (2003) sent by So Kawaguchi 
+##                                                                                                                                                                                                                                                         46 
+##                                                                                                                                                                            British Antarctic Survey, data available from UK PDC JR15002 RMT8 data archive. 
+##                                                                                                                                                                                                                                                          9 
+##                                                                                                                                                                           British Antarctic Survey, data available from UK PDC Low Trophic Level database. 
+##                                                                                                                                                                                                                                                        346 
+##                                                                                                                                                         British Antarctic Survey, data available from UK PDC Offshore Biological Programme (OBP) database. 
+##                                                                                                                                                                                                                                                        567 
+##                                               Data from the "Biological Investigations of Marine Antarctic Systems and Stocks" (BIOMASS) programme of the 1980s, stored at British Antractic Survey, and transcribed to KRILLBASE by Mark Jessopp in 2007. 
+##                                                                                                                                                                                                                                                        433 
+## Data from the "Discovery" Era (1920s and 1930s) digitised as part of the "Biological Investigations of Marine Antarctic Systems and Stocks" (BIOMASS) programme of the 1980s, and stored at British Antractic Survey. Transcribed by Mark Jessopp in 2007. 
+##                                                                                                                                                                                                                                                       1067 
+##                                                                                                                                                                                         Data sent by Kendra Daly on the US SO GLOBEC Program (winter data) 
+##                                                                                                                                                                                                                                                        120 
+##                                                                                                                                                                                      Endo et al (1986) Mem. Natl. Inst. Polar Res. Spec. Issue 44, 107-117 
+##                                                                                                                                                                                                                                                          5 
+##                                                                                                                                                                                             Fevolden & George (1984) J. Crust Biol. 4 (Spec. No 1) 107-122 
+##                                                                                                                                                                                                                                                         15 
+##                                                                                                                                                                                        German data sent by Volker Siegel, Sea Fisheries Institute, Hamburg 
+##                                                                                                                                                                                                                                                       1518 
+##                                                                                                                                                                                                                Higginbottom & Hosie (1989) MEPS 58 197-203 
+##                                                                                                                                                                                                                                                          2 
+##                                                                                                                                                                                                                 Hosie et al (1987) ANARE Research Notes 57 
+##                                                                                                                                                                                                                                                          1 
+##                                                                                                                                                                                                                 Hosie et al (1991) ANARE Research Notes 79 
+##                                                                                                                                                                                                                                                         29 
+##                                                         Jazdzewski, K et al (1978) Biological and populational studies on krill near South Shetland Islands, Scotia Sea and South Georgia in the summer 1976. Polskie Archiwum Hydrobiologii 25(3) 607-631 
+##                                                                                                                                                                                                                                                         97 
+##                                                                                                                                                                                                           Kasatkina, S.M. (1997) CCAMLR Science 4, 161-169 
+##                                                                                                                                                                                                                                                          6 
+##                                                                                                                                                                                                   Kaufmann, R.S. et al (2003) Deep Sea Res II 50 1765-1785 
+##                                                                                                                                                                                                                                                          5 
+##                                                                                                                                                                                                         Lancraft et al (2004) Deep Sea Res II 51 2247-2260 
+##                                                                                                                                                                                                                                                          1 
+##                                                                                                                                                      Maklygin (1993) In. Klekowski, RZ & Opalinski, KW (Eds) 2nd Polish-Soviet Antarctic Symposium 151-157 
+##                                                                                                                                                                                                                                                          8 
+##                                                                                                                                                                                                                         Nordhausen (1994) MEPS 109 131-142 
+##                                                                                                                                                                                                                                                          1 
+##                                                                                                                                                                                          Old US expedition data (e.g. AMERIEZ, Protea) sent by Kendra Daly 
+##                                                                                                                                                                                                                                                         89 
+##                                                                                                                                     Pakhomov et al (unpub data) Macroplankton data in the Prydz bay region in 1987-1990 from bongo & Melnikov nets catches 
+##                                                                                                                                                                                                                                                         43 
+##                                                                                                                                                                                                        Peruvian summer 1999/2000 data from Javier Quinones 
+##                                                                                                                                                                                                                                                         13 
+##                                                                                                                                                                                                                   Sala et al (2002) Sci Mar. 66(2) 123-133 
+##                                                                                                                                                                                                                                                          1 
+##                                                                                                                                                                                                      Stepnik, R. (1982) Polish Polar Research 3(1-2) 49-68 
+##                                                                                                                                                                                                                                                         16 
+##                                                                                                                                                                                   Terazaki & Wada (1986) Mem. Natl Inst. Polar Res. Spec. Issue 40, 97-109 
+##                                                                                                                                                                                                                                                          7 
+##                                                    Ukrainian data (digital photos of net logsheets) sent in 2 batches by Boris Trotsenko, translated by Evgeny Pakhomov, transcribed by Mark Jessopp, Catherine Brester, Angus Atkinson then Natalie Ensor 
+##                                                                                                                                                                                                                                                        219 
+##                                                                                                                                                          US Antarctic Marine Living Resources (AMLR) Program data sent by Roger Hewitt for the 2000 season 
+##                                                                                                                                                                                                                                                         75 
+##                                                                                                                                   US Antarctic Marine Living Resources (AMLR) Program data sent by Valerie Loeb (1990-2007 exclusive, missing 2000 season) 
+##                                                                                                                                                                                                                                                       1418 
+##                                                                                                                                                                                        Wang et al (2000) Chinese J of Oceanology & Limnology 18(2) 110-116 
+##                                                                                                                                                                                                                                                          6 
+##                                                                                                                                                                         Williams, R. et al (1986) ADBEX I cruise zooplankton data. ANARE Research Notes 31 
+##                                                                                                                                                                                                                                                         31 
+##                                                                                                                          Witek (1979) Phytoplankton distribution and some aspects of the biology of Antarctic krill (Euphausia superba). ICES CM 1979/L:14 
+##                                                                                                                                                                                                                                                          7
 ```
 
 Fist thing is select main columns, like 
@@ -128,12 +189,10 @@ Fist thing is select main columns, like
 
 ```r
 Net_fill <- Net_haul_details %>% 
-  select(c(-2,-15, -28, -29))
+  select(c(-2,-15, -29))
 ```
 
-glimpse general
-
-
+Ungrouping data to get raw count in all dataframe
 
 
 ```r
@@ -141,6 +200,9 @@ net_glo <- Net_fill %>%
   type.convert(as.is = TRUE) %>% 
   uncount(Total.krill.in.sample)
 ```
+
+
+## Plot sizes composition in global data (all Southern Ocean)
 
 
 ```r
@@ -164,7 +226,7 @@ jzglo
 ```
 
 <img src="index_files/figure-html/unnamed-chunk-5-1.jpeg" style="display: block; margin: auto;" />
-
+## Group and join krill base data in Stratas
 We define spatial scale, in this case, Strata from 48.1
 
 
@@ -180,7 +242,7 @@ strata=st_transform(strata, "+proj=latlong +ellps=WGS84")
 ```
 
 
-transfrom data to `sf` object.
+transform data to `sf` object.
 
 
 ```r
@@ -190,7 +252,7 @@ Net_fill2 <- st_as_sf(Net_fill %>%
                   crs = "+proj=latlong +ellps=WGS84")
 ```
 
-Show strata agregation to join length data (Figure\@ref(fig:maptest).
+Show strata agregation to join length data.
 
 
 ```r
@@ -222,7 +284,7 @@ ssmap
 <img src="index_files/figure-html/maptest-1.jpeg" alt="Strata Maps in 48.1"  />
 <p class="caption">Strata Maps in 48.1</p>
 </div>
-
+## Join
 
 
 ```r
@@ -240,6 +302,7 @@ Expand frecuency data related length, in this case `amount` column have frecuenc
 dat_len_strata2 <- as.data.frame(dat_len_strata)
 ```
 
+## uncount frecuency in this data based on strata
 
 
 ```r
@@ -247,7 +310,9 @@ df <- dat_len_strata2 %>%
   type.convert(as.is = TRUE) %>% 
   uncount(Total.krill.in.sample)
 ```
-by year
+
+
+## Plot total by year in 48.1
 
 
 ```r
@@ -276,7 +341,7 @@ jzs
 <img src="index_files/figure-html/unnamed-chunk-11-1.jpeg" style="display: block; margin: auto;" />
 
 
-by strata
+## Plot by year and Strata
 
 
 ```r
@@ -308,13 +373,15 @@ jzstrata
 
 <img src="index_files/figure-html/unnamed-chunk-12-1.jpeg" style="display: block; margin: auto;" />
 
+## Calculate trends in mean lenght by Strata and year
+
 ```r
 dfgru <- df %>% 
   group_by(Year, ID) %>% 
   summarize(MEANL =mean(Mean.length..mm.))
 ```
 
-
+## Means trends in krill base by year and strata
 
 ```r
 lmlenght <- ggplot(dfgru,
@@ -342,21 +409,20 @@ lmlenght
 
 <img src="index_files/figure-html/unnamed-chunk-14-1.jpeg" style="display: block; margin: auto;" />
 
-by net type
+## krill data lenght by Source and year. (i need  improve this visualization||)
 
 
 ```r
 jzsnet <- ggplot(df ,
                    aes(x=Mean.length..mm., 
-                       y = as.factor(Year),
-                       (fill=Cruise)))+
+                       y = as.factor(Year)))+
   geom_density_ridges(stat = "density_ridges",
                       bins = 30, 
                       scale = 1.9, 
                       draw_baseline = FALSE,
                       alpha=0.9)+
   scale_fill_viridis_c()+
-  facet_grid(~Nettype) +   
+  facet_grid(~Source) +   
   geom_vline(xintercept = 40, color = "red")+
   scale_x_continuous(breaks = seq(from = 10, to = 80, 
                                   by = 10))+

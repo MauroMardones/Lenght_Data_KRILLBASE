@@ -1,5 +1,5 @@
 ---
-title: "Data prepair Length structure KRILLBASE"
+title: "Analysis Exploratory Data (AED) on krill length structure from KRILLBASE"
 subtitle: "Alternative Analysis to incorporate in Krill Stock Assessment Model 48.1 SubArea"
 author: "Mardones, M"
 date:  "`r format(Sys.time(), '%d %B, %Y')`"
@@ -22,6 +22,12 @@ editor_options:
   markdown: 
     wrap: 72
 ---
+
+## Background
+
+The following code perform as an Analisys Exploratory Data of Krill *Euphausia superba* based in Area 481, and with special emphasis on the proposed new management strata. The idea is to observe and prepare the days to incorporate into the stock assessment. This data base was download from [KRILLDATA Base](https://apex.nerc-bas.ac.uk/f?p=198:1:0).
+
+## Set up and libraries
 
 ```{r setup1}
 rm(list = ls())
@@ -48,40 +54,32 @@ library(CCAMLRGIS)
 library(ggthemes)
 ```
 
-# Background
-
-The following document intends to carry out a complementary
-methodological analysis to explore, in this case, with a
-biological component like lengths from Lengh Frecuency [KRILLDATA Base](https://apex.nerc-bas.ac.uk/f?p=198:1:0).
-
-
-# Methodology
-
-Load data 
+## Load data and a glimpse about structure
 
 ```{r}
 Net_haul_details <- read.csv("Net haul details.csv",sep=",")
 names(Net_haul_details)
 dim(Net_haul_details)
-table(Net_haul_details$Year)
+table(Net_haul_details$Source)
 ```
 
 Fist thing is select main columns, like 
 
 ```{r}
 Net_fill <- Net_haul_details %>% 
-  select(c(-2,-15, -28, -29))
+  select(c(-2,-15, -29))
 ```
 
-glimpse general
-
-
+Ungrouping data to get raw count in all dataframe
 
 ```{r warning=FALSE}
 net_glo <- Net_fill %>% 
   type.convert(as.is = TRUE) %>% 
   uncount(Total.krill.in.sample)
 ```
+
+
+## Plot sizes composition in global data (all Southern Ocean)
 
 ```{r warning=FALSE, fig.width=3, fig.height=5}
 jzglo <- ggplot(net_glo ,
@@ -102,7 +100,7 @@ jzglo <- ggplot(net_glo ,
   ylab("")
 jzglo
 ```
-
+## Group and join krill base data in Stratas
 We define spatial scale, in this case, Strata from 48.1
 
 ```{r}
@@ -117,7 +115,7 @@ strata=st_transform(strata, "+proj=latlong +ellps=WGS84")
 ```
 
 
-transfrom data to `sf` object.
+transform data to `sf` object.
 
 ```{r}
 Net_fill2 <- st_as_sf(Net_fill %>% 
@@ -126,7 +124,7 @@ Net_fill2 <- st_as_sf(Net_fill %>%
                   crs = "+proj=latlong +ellps=WGS84")
 ```
 
-Show strata agregation to join length data (Figure\@ref(fig:maptest).
+Show strata agregation to join length data.
 
 ```{r maptest, fig.cap="Strata Maps in 48.1"}
 # y testeo el mapa
@@ -152,7 +150,7 @@ ssmap <- ggplot()+
   theme_bw()
 ssmap
 ```
-
+## Join
 
 ```{r}
 # comoprobar si tengo datos duplicados
@@ -168,13 +166,16 @@ Expand frecuency data related length, in this case `amount` column have frecuenc
 dat_len_strata2 <- as.data.frame(dat_len_strata)
 ```
 
+## uncount frecuency in this data based on strata
 
 ```{r warning=FALSE}
 df <- dat_len_strata2 %>% 
   type.convert(as.is = TRUE) %>% 
   uncount(Total.krill.in.sample)
 ```
-by year
+
+
+## Plot total by year in 48.1
 
 ```{r warning=FALSE, fig.width=4, fig.height=5}
 jzs <- ggplot(df ,
@@ -200,7 +201,7 @@ jzs
 ```
 
 
-by strata
+## Plot by year and Strata
 
 ```{r warning=FALSE}
 jzstrata <- ggplot(df ,
@@ -228,13 +229,15 @@ jzstrata <- ggplot(df ,
   ylab("")
 jzstrata
 ```
+
+## Calculate trends in mean lenght by Strata and year
 ```{r}
 dfgru <- df %>% 
   group_by(Year, ID) %>% 
   summarize(MEANL =mean(Mean.length..mm.))
 ```
 
-
+## Means trends in krill base by year and strata
 ```{r}
 lmlenght <- ggplot(dfgru,
                    aes(Year, MEANL))+
@@ -259,20 +262,19 @@ lmlenght <- ggplot(dfgru,
 lmlenght
 ```
 
-by net type
+## krill data lenght by Source and year. (i need  improve this visualization||)
 
 ```{r eval=FALSE, warning=FALSE, message=FALSE}
 jzsnet <- ggplot(df ,
                    aes(x=Mean.length..mm., 
-                       y = as.factor(Year),
-                       (fill=Cruise)))+
+                       y = as.factor(Year)))+
   geom_density_ridges(stat = "density_ridges",
                       bins = 30, 
                       scale = 1.9, 
                       draw_baseline = FALSE,
                       alpha=0.9)+
   scale_fill_viridis_c()+
-  facet_grid(~Nettype) +   
+  facet_grid(~Source) +   
   geom_vline(xintercept = 40, color = "red")+
   scale_x_continuous(breaks = seq(from = 10, to = 80, 
                                   by = 10))+
