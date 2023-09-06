@@ -181,7 +181,7 @@ jzstrata <- ggplot(df ,
                        (fill=Cruise)))+
   geom_density_ridges(stat = "density_ridges",
                       bins = 30, 
-                      scale = 2.9, 
+                      scale = 2 %>% .9, 
                       draw_baseline = FALSE,
                       alpha=0.9)+
   scale_fill_viridis_c()+
