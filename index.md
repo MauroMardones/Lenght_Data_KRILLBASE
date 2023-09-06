@@ -55,7 +55,7 @@ library(ggthemes)
 The following document intends to carry out a complementary
 methodological analysis to correlate environmental variables with the
 population dynamics of krill (*Euphausia superba*), in this case, with a
-biological component like lengths from fishery monitoring.
+biological component like lengths from Lengh Frecuency [KRILLDATA Base](https://apex.nerc-bas.ac.uk/f?p=198:1:0).
 
 
 # Methodology
