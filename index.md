@@ -1,5 +1,5 @@
 ---
-title: "Analysis Exploratory Data (AED) on krill length structure from KRILLBASE"
+title: " Exploratory Data Analysis (EDA) on krill length structure from KRILLBASE"
 subtitle: "Alternative Analysis to incorporate in Krill Stock Assessment Model 48.1 SubArea"
 author: "Mardones, M"
 date:  "06 September, 2023"
@@ -25,7 +25,7 @@ editor_options:
 
 ## Background
 
-The following code perform as an Analisys Exploratory Data of Krill *Euphausia superba* based in Area 481, and with special emphasis on the proposed new management strata. The idea is to observe and prepare the days to incorporate into the stock assessment. This data base was download from [KRILLDATA Base](https://apex.nerc-bas.ac.uk/f?p=198:1:0).
+The following code perform as an  Exploratory Data Analysis of Krill *Euphausia superba* based in Area 481, and with special emphasis on the proposed new management strata. The idea is to observe and prepare the days to incorporate into the stock assessment. This data base was download from [KRILLDATA Base](https://apex.nerc-bas.ac.uk/f?p=198:1:0).
 
 ## Set up and libraries
 

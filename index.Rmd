@@ -1,5 +1,5 @@
 ---
-title: "Analysis Exploratory Data (AED) on krill length structure from KRILLBASE"
+title: " Exploratory Data Analysis (EDA) on krill length structure from KRILLBASE"
 subtitle: "Alternative Analysis to incorporate in Krill Stock Assessment Model 48.1 SubArea"
 author: "Mardones, M"
 date:  "`r format(Sys.time(), '%d %B, %Y')`"
@@ -25,7 +25,7 @@ editor_options:
 
 ## Background
 
-The following code perform as an Analisys Exploratory Data of Krill *Euphausia superba* based in Area 481, and with special emphasis on the proposed new management strata. The idea is to observe and prepare the days to incorporate into the stock assessment. This data base was download from [KRILLDATA Base](https://apex.nerc-bas.ac.uk/f?p=198:1:0).
+The following code perform as an  Exploratory Data Analysis of Krill *Euphausia superba* based in Area 481, and with special emphasis on the proposed new management strata. The idea is to observe and prepare the days to incorporate into the stock assessment. This data base was download from [KRILLDATA Base](https://apex.nerc-bas.ac.uk/f?p=198:1:0).
 
 ## Set up and libraries
 
@@ -81,7 +81,7 @@ net_glo <- Net_fill %>%
 
 ## Plot sizes composition in global data (all Southern Ocean)
 
-```{r warning=FALSE, fig.width=3, fig.height=5}
+```{r warning=FALSE, fig.height=8}
 jzglo <- ggplot(net_glo ,
                    aes(x=Mean.length..mm., 
                        y = as.factor(Year)))+
@@ -177,7 +177,7 @@ df <- dat_len_strata2 %>%
 
 ## Plot total by year in 48.1
 
-```{r warning=FALSE, fig.width=4, fig.height=5}
+```{r warning=FALSE, fig.height=8}
 jzs <- ggplot(df ,
                    aes(x=Mean.length..mm., 
                        y = as.factor(Year)))+
