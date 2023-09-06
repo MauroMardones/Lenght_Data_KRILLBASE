@@ -231,6 +231,7 @@ jzstrata
 ```
 
 ## Calculate trends in mean lenght by Strata and year
+
 ```{r}
 dfgru <- df %>% 
   group_by(Year, ID) %>% 
