@@ -73,6 +73,35 @@ Net_fill <- Net_haul_details %>%
   select(c(-2,-15, -28, -29))
 ```
 
+glimpse general
+
+
+
+```{r warning=FALSE}
+net_glo <- Net_fill %>% 
+  type.convert(as.is = TRUE) %>% 
+  uncount(Total.krill.in.sample)
+```
+
+```{r warning=FALSE, fig.width=3, fig.height=5}
+jzglo <- ggplot(net_glo ,
+                   aes(x=Mean.length..mm., 
+                       y = as.factor(Year)))+
+  geom_density_ridges(stat = "density_ridges", bins = 30, 
+                      scale = 3.9, 
+                      draw_baseline = FALSE,
+                      alpha=0.9)+
+  geom_vline(xintercept = 40, color = "red")+
+  scale_x_continuous(breaks = seq(from = 10, to = 80, 
+                                  by = 10))+
+  scale_y_discrete(breaks = seq(from = 1926, 
+                                to = 2017, by = 3))+
+  theme_few()+
+  theme(axis.text.x = element_text(angle = 90, hjust = 2))+
+  xlab("Length (mm.)")+
+  ylab("")
+jzglo
+```
 
 We define spatial scale, in this case, Strata from 48.1
 
@@ -147,7 +176,7 @@ df <- dat_len_strata2 %>%
 ```
 by year
 
-```{r warning=FALSE, fig.width=3, fig.height=6}
+```{r warning=FALSE, fig.width=4, fig.height=5}
 jzs <- ggplot(df ,
                    aes(x=Mean.length..mm., 
                        y = as.factor(Year)))+
@@ -198,6 +227,36 @@ jzstrata <- ggplot(df ,
   xlab("Length (mm.)")+
   ylab("")
 jzstrata
+```
+```{r}
+dfgru <- df %>% 
+  group_by(Year, ID) %>% 
+  summarize(MEANL =mean(Mean.length..mm.))
+```
+
+
+```{r}
+lmlenght <- ggplot(dfgru,
+                   aes(Year, MEANL))+
+                   #colour=CLASS))+
+    geom_point(show.legend = F,
+               shape=21) +
+    geom_smooth(method= "lm",
+                color="blue",
+               alpha=0.6)+
+    #scale_size(range = c(-4,8)) +
+     theme_few()+ 
+    facet_wrap(.~ID)+
+    geom_hline(yintercept = 40, color = "red")+
+    scale_x_continuous(breaks = seq(from = 1927, to = 2021, by = 5))+
+    theme(axis.text.x = element_text(angle = 90, hjust = 2))+
+    guides(fill = guide_legend(reverse=F))+
+    scale_fill_viridis_d(option="G")+
+    ylim(0,80)+
+    ylab("Mean length (mm.)") +
+    xlab("") +
+    ggtitle("Lenght Mean Krill Differente sources")
+lmlenght
 ```
 
 by net type

@@ -131,6 +131,39 @@ Net_fill <- Net_haul_details %>%
   select(c(-2,-15, -28, -29))
 ```
 
+glimpse general
+
+
+
+
+```r
+net_glo <- Net_fill %>% 
+  type.convert(as.is = TRUE) %>% 
+  uncount(Total.krill.in.sample)
+```
+
+
+```r
+jzglo <- ggplot(net_glo ,
+                   aes(x=Mean.length..mm., 
+                       y = as.factor(Year)))+
+  geom_density_ridges(stat = "density_ridges", bins = 30, 
+                      scale = 3.9, 
+                      draw_baseline = FALSE,
+                      alpha=0.9)+
+  geom_vline(xintercept = 40, color = "red")+
+  scale_x_continuous(breaks = seq(from = 10, to = 80, 
+                                  by = 10))+
+  scale_y_discrete(breaks = seq(from = 1926, 
+                                to = 2017, by = 3))+
+  theme_few()+
+  theme(axis.text.x = element_text(angle = 90, hjust = 2))+
+  xlab("Length (mm.)")+
+  ylab("")
+jzglo
+```
+
+<img src="index_files/figure-html/unnamed-chunk-5-1.jpeg" style="display: block; margin: auto;" />
 
 We define spatial scale, in this case, Strata from 48.1
 
@@ -240,7 +273,7 @@ jzs <- ggplot(df ,
 jzs
 ```
 
-<img src="index_files/figure-html/unnamed-chunk-9-1.jpeg" style="display: block; margin: auto;" />
+<img src="index_files/figure-html/unnamed-chunk-11-1.jpeg" style="display: block; margin: auto;" />
 
 
 by strata
@@ -273,7 +306,41 @@ jzstrata <- ggplot(df ,
 jzstrata
 ```
 
-<img src="index_files/figure-html/unnamed-chunk-10-1.jpeg" style="display: block; margin: auto;" />
+<img src="index_files/figure-html/unnamed-chunk-12-1.jpeg" style="display: block; margin: auto;" />
+
+```r
+dfgru <- df %>% 
+  group_by(Year, ID) %>% 
+  summarize(MEANL =mean(Mean.length..mm.))
+```
+
+
+
+```r
+lmlenght <- ggplot(dfgru,
+                   aes(Year, MEANL))+
+                   #colour=CLASS))+
+    geom_point(show.legend = F,
+               shape=21) +
+    geom_smooth(method= "lm",
+                color="blue",
+               alpha=0.6)+
+    #scale_size(range = c(-4,8)) +
+     theme_few()+ 
+    facet_wrap(.~ID)+
+    geom_hline(yintercept = 40, color = "red")+
+    scale_x_continuous(breaks = seq(from = 1927, to = 2021, by = 5))+
+    theme(axis.text.x = element_text(angle = 90, hjust = 2))+
+    guides(fill = guide_legend(reverse=F))+
+    scale_fill_viridis_d(option="G")+
+    ylim(0,80)+
+    ylab("Mean length (mm.)") +
+    xlab("") +
+    ggtitle("Lenght Mean Krill Differente sources")
+lmlenght
+```
+
+<img src="index_files/figure-html/unnamed-chunk-14-1.jpeg" style="display: block; margin: auto;" />
 
 by net type
 
